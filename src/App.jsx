@@ -1,6 +1,6 @@
 import Map from "react-map-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import axios from "axios";
 import Markers from "./components/Markers";
 import NavBar from "./components/NavBar";
@@ -15,18 +15,12 @@ function App() {
   const [keyword, setKeyword] = useState("Junior Developer");
   const [location, setLocation] = useState("USA");
   const perPage = 1000;
-  const url = `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=2ab7411c&app_key=5eb49153dbc20fd4904557e94acbf1a3&results_per_page=${perPage}&what=${keyword}&where=${location}`;
 
-  console.log(viewPort)
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await axios(url);
-      setMapData(res.data.results);
-    };
-    fetchData();
-  }, [url]);
-
+  const handleSubmit = async () =>{
+    const url = `https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=2ab7411c&app_key=5eb49153dbc20fd4904557e94acbf1a3&results_per_page=${perPage}&what=${keyword}&where=${location}`;
+    const res = await axios(url);
+    setMapData(res.data.results);
+  }
 
   return (
     <div className="flex">
@@ -42,7 +36,7 @@ function App() {
           return <Markers key={item?.id} item={item} />;
         })}
       </Map>
-      <NavBar setKeyword = {setKeyword} setLocation = {setLocation} viewPort = {viewPort} setViewPort = {setViewPort}/>
+      <NavBar setKeyword = {setKeyword} setLocation = {setLocation} viewPort = {viewPort} setViewPort = {setViewPort} handleSubmit = {handleSubmit} mapData = {mapData}/>
     </div>
   );
 }
