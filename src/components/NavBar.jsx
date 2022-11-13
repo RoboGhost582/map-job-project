@@ -3,17 +3,21 @@ import { BiChevronDown } from "react-icons/bi";
 import { AiOutlineSearch } from "react-icons/ai";
 import States from "../StateData.js";
 
-function NavBar({ setKeyword, setLocation, setViewPort, viewPort, handleSubmit, mapData}) {
+function NavBar({ setKeyword, setLocation, setViewPort, viewPort, handleSubmit, mapData , loading}) {
   const [inputValue, setInputValue] = useState("");
   const [selected, setSelected] = useState("");
   const [open, setOpen] = useState(false);
   const [showMessage, setShowMessage] = useState(false)
-  console.log(showMessage)
 
   return (
     <div className="flex flex-col justify-start items-center bg-[#191a1a] gap-4 p-4">
+      <div>
+        <h1 className="text-center text-2xl font-bold text-white">United States Job Search</h1>
+        <p className="text-center text-white">(Top 50 results will be shown)</p>
+      </div>
+
       <input
-        className="border-2 border-black py-2 px-4 my-1 rounded-xl w-[250px]"
+        className="border-2 border-black py-2 px-4 rounded-xl w-[250px]"
         placeholder="Job Keyword(s)..."
         type="text"
         onChange={(e) => setKeyword(e.target.value)}
@@ -33,7 +37,7 @@ function NavBar({ setKeyword, setLocation, setViewPort, viewPort, handleSubmit, 
         <BiChevronDown size={20} className={`${open && "rotate-180"}`} />
       </div>
       <ul
-        className={`bg-white mt-2 overflow-y-auto ${
+        className={`bg-white overflow-y-auto ${
           open ? "max-h-60" : "max-h-0"
         } `}
       >
@@ -63,6 +67,7 @@ function NavBar({ setKeyword, setLocation, setViewPort, viewPort, handleSubmit, 
             onClick={() => {
               if (item?.state.toLowerCase() !== selected.toLowerCase()) {
                 setLocation(item?.state);
+                // eslint-disable-next-line
                 {
                   item?.state === "USA"
                     ? setViewPort({
@@ -88,12 +93,13 @@ function NavBar({ setKeyword, setLocation, setViewPort, viewPort, handleSubmit, 
           </li>
         ))}
       </ul>
-      {(showMessage) ? 
+      {(loading) ? <p className="text-white">Loading Data...</p> :
+      (showMessage) ? 
       ((mapData <= 0) ? 
       (<p className="text-white">No Results Found With Those Keyword(s)</p>)
       : (<p className="text-white">Results Found: {mapData.length}</p>))
       : null}
-      <button className="border-2 border-black py-2 px-4 my-1 rounded-xl w-[250px] bg-white"
+      <button className="border-2 border-black py-2 px-4 rounded-xl w-[250px] bg-white"
       onClick={() => {handleSubmit(); setShowMessage(true);}}>Submit</button>
     </div>
   );
