@@ -31,7 +31,7 @@ function App() {
       <Map
         {...viewPort}
         onMove={evt => setViewPort(evt.viewPort)}
-        mapboxAccessToken= "pk.eyJ1Ijoicm9ib2dob3N0NTgyIiwiYSI6ImNsYWNvcnl6MjA2Z240MXF2NXl1OXR1d3gifQ.pcL3VAIzYvsPXqUIXFm8wA"
+        mapboxAccessToken= {process.env.REACT_APP_MAPBOX}
         style={{ width: "100vw", height: "100vh" }}
         mapStyle="mapbox://styles/mapbox/dark-v10" 
       >
